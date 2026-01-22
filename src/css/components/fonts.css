@@ -1,0 +1,17 @@
+/* @font-face {
+  font-family: 'MADE Coachella';
+  src: url('../fonts/made-coachella-light.woff2') format('woff2'),
+    url('../fonts/made-coachella-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+body {
+  @apply font-body text-black;
+}
+
+strong,
+b {
+  @apply font-medium;
+}
+ */

@@ -1,0 +1,14 @@
+/* Import your existing CSS first */
+@import "./components/buttons.css";
+@import "./components/close-btn.css";
+@import "./components/containers.css";
+@import "./components/fonts.css";
+@import "./components/form.css";
+@import "./components/misc.css";
+
+/* Then Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add more custom CSS here if needed */

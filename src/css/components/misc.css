@@ -1,0 +1,5 @@
+/* misc.css */
+/* Miscellaneous utility styles */
+.text-muted {
+  @apply text-gray-500;
+}

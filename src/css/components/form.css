@@ -1,0 +1,5 @@
+/* form.css */
+/* Form related styles */
+.form-input {
+  @apply border rounded px-3 py-2 w-full;
+}
