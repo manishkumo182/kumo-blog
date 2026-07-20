@@ -19,10 +19,10 @@ $certifications = get_field('certifications', 'option');
 
                 <!-- Column 1: Title, Description, and Contact Information -->
                 <div class="flex flex-col">
-                    <h2 class="pb-2 font-small text-2xl  text-white whitespace-nowrap">
+                    <h2 class="pb-2 font-small text-lg  text-white whitespace-nowrap">
                         <?= $fields['title'] ?>
                     </h2>
-                    <div class="py-2 font-normal text-lg leading-10  text-white">
+                    <div class="py-2 font-normal text-md leading-8  text-white">
                         <?= $fields['footer_description']['content'] ?>
                     </div>
                     <!-- <div class="pt-6">
@@ -33,9 +33,9 @@ $certifications = get_field('certifications', 'option');
                     </div> -->
                 </div>
                 <!-- Column 2: Contact Information -->
-                <div class="flex flex-col text-white text-2xl">
+                <div class="flex flex-col text-white text-md">
                     <?= $fields['contact_information']['title'] ?>
-                    <div class="pt-5 leading-10 text-lg">
+                    <div class="pt-5 leading-8 text-md">
                         Address : <span class="  "><?= nl2br($company_address) ?></span><br>
                         Phone : <a href="tel:<?= $company_phone ?>" class="">
                             <span class=""><?= $company_phone ?></span></a><br>
@@ -49,9 +49,9 @@ $certifications = get_field('certifications', 'option');
                 </div>
 
                 <!-- Column 4: Menu Links -->
-                <div class="flex flex-col text-white text-2xl mb-5">
+                <div class="flex flex-col text-white text-lg mb-5">
                     <?= $fields['menu']['title'] ?>
-                    <div class="pt-3 leading-10 text-lg">
+                    <div class="pt-3 leading-10 text-md">
                         <?php foreach ($fields['menu']['menu_items'] as $menu): ?>
                             <a href="<?= $menu['button']['clone_button']['url'] ?>"
                                 class="block hover:text-gray-300"><?= $menu['button']['clone_button']['text'] ?></a>
@@ -60,18 +60,18 @@ $certifications = get_field('certifications', 'option');
                 </div>
 
                 <!-- Column 5: Project Section -->
-                <div class="flex flex-col text-white text-2xl">
+                <div class="flex flex-col text-white text-lg">
                     <?= $fields['menu_column']['title'] ?>
-                    <div class="pt-3 leading-10 text-lg">
+                    <div class="pt-3 leading-8 text-md">
                         <?php foreach ($fields['menu_column']['menu_items'] as $menu): ?>
                             <a href="<?= $menu['button']['clone_button']['url'] ?>"
                                 class="block hover:text-gray-300"><?= $menu['button']['clone_button']['text'] ?></a>
                         <?php endforeach; ?>
                     </div>
                 </div>
-                    <div class="flex flex-col text-white text-2xl">
+                    <div class="flex flex-col text-white text-lg">
                     <?= $fields['social']['title'] ?>
-                    <div class="pt-5 leading-7 text-lg">
+                    <div class="pt-5 leading-7 text-md">
                         <div class="flex space-x-4">
                             <?php foreach ($social as $socials): ?>
                                 <a href="<?= $socials['url'] ?>" target="_blank"

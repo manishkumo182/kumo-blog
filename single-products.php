@@ -51,7 +51,7 @@ while ( have_posts() ) : the_post();
                 <?php endif; ?>
 
                 <?php if ($count): ?>
-                    <span class="inline-block  py-2 bg-blue-100 text-blue-700  items-center font-medium rounded-full">
+                    <span class="inline-block  p-4 bg-blue-100 text-blue-700  items-center font-medium rounded-full">
                         <?= esc_html($count); ?> posts
                     </span>
                 <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main id="primary" class="site-main container mx-auto py-10">
+<main id="primary" class="site-main container mx-auto pt-36 lg:pt-44 pb-10">
     <h1 class="text-3xl font-bold mb-6">
         Search Results for: "<?php echo get_search_query(); ?>"
     </h1>

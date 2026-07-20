@@ -35,10 +35,10 @@
     align-items: center;
     flex: 1;
     width: 100%;
-    color: black;
+    color: #fff;
     z-index: 20;
-    gap: 3rem;
-    font-size:22px;
+    gap: 2rem;
+    font-size: 15px;
 }
 
 /* Hide on mobile, show on XL screens */
@@ -60,7 +60,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 2rem;
+    gap: 0.5rem;
     align-items: center;
 }
 
@@ -71,18 +71,15 @@
 /* Hover effect */
 .navbar a:hover {
     color: #DD574E; /* hover color */
-    text-decoration: underline;
 }
 .navbar a:active {
     color: #DD574E; /* hover color */
-    text-decoration: underline;
 }
 
 /* Active/current page menu item */
 .navbar .current-menu-item > a,
 .navbar .current-menu-ancestor > a {
     color: #DD574E; /* active page color */
-    text-decoration: underline;
     font-weight: 600; /* optional: make active slightly bolder */
 }
 
@@ -90,10 +87,11 @@
 /* Desktop Menu Link */
 .desktop-menu-a {
     position: relative;
-    color: black;
-    padding: 1rem 1.5rem;
-    font-size: 24px;
+    color: #fff;
+    padding: 0.5rem 1.1rem;
+    font-size: 15px;
     line-height: 1.25;
+    letter-spacing: 0.01em;
     transition: color 0.3s;
 }
 
@@ -101,7 +99,7 @@
 .desktop-menu-a::after {
     content: '';
     position: absolute;
-    bottom: 0.25rem;
+    bottom: 0.1rem;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
@@ -117,7 +115,7 @@
 
 
 .desktop-menu-a:hover::after {
-    width: calc(100% - 3rem);
+    width: calc(100% - 2.2rem);
 }
 
 /* Active state for main menu links */
@@ -127,9 +125,46 @@
     color: #DC5850;
 }
 
-.desktop-menu-a.current-menu-item::after,
-.desktop-menu-a.current_page_item::after {
-    width: calc(100% - 3rem);
+/* Dropdown trigger buttons (e.g. "Categories") */
+.desktop-menu-button {
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+}
+
+.desktop-menu-button:hover,
+.desktop-menu-button[aria-expanded="true"] {
+    color: #DC5850;
+}
+
+.desktop-menu-button svg {
+    transition: transform 0.2s ease;
+}
+
+.desktop-menu-button[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+}
+
+/* Header sits on a permanent translucent dark bar so white nav text stays
+   readable on every page — even ones with no dark hero behind it (search,
+   404, archives) — then solidifies further once the page scrolls. */
+#header-container {
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.32) 70%, rgba(10, 10, 10, 0.18) 100%);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+#header-container.header-solid {
+    background-image: none;
+    background-color: rgba(17, 17, 17, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.header-search-label {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 
@@ -141,15 +176,15 @@
   <header>
     <div id="header-container"
      class="<?= isset($GLOBALS['has_padding']) && $GLOBALS['has_padding'] ? 'shown' : '' ?> 
-            fixed top-0 inset-x-0 z-20 transition-all duration-500 <?= is_user_logged_in() ? 'mt-2' : ''; ?>
+            fixed top-0 inset-x-0 z-50 transition-all duration-500 <?= is_user_logged_in() ? 'mt-2' : ''; ?>
             bg-transparent">
 
-      <div id="header" class="container relative bg-white z-20 w-full md:flex flex-row">
-        <div id="nav-container" class="flex items-center justify-between w-full border-b border-white">
+      <div id="header" class="container relative bg-transparent z-50 w-full md:flex flex-row">
+        <div id="nav-container" class="flex items-center justify-between w-full">
           <div class="!px-0 flex items-center w-full py-5 sm:py-5 flex-0 flex-grow-0">
             <div class="lg:px-28 lg:pt-4 mr-auto">
-              <a href="<?= home_url() ?>" class="inline-block w-32 h-8 lg:w-40 lg:h-20">
-                <?= isset($header['logo']) ? get_img($header['logo'], '112px', ['class' => 'object-contain transition-all duration-300', 'id' => "nav-logo"]) : get_bloginfo('title') ?>
+              <a href="<?= home_url() ?>" class="inline-flex items-center w-32 h-8 lg:w-40 lg:h-20 bg-white rounded-lg px-3 py-1.5 shadow-sm">
+                <?= isset($header['logo']) ? get_img($header['logo'], '112px', ['class' => 'object-contain transition-all duration-300', 'id' => "nav-logo"]) : '<span class="text-primary text-2xl font-medium">' . get_bloginfo('title') . '</span>' ?>
               </a>
             </div>
 
@@ -177,13 +212,14 @@
     </form>
 
     <!-- Search Icon Button -->
-    <button 
-        @click="open = !open" 
-        class="ml-2 p-2 rounded-full hover:bg-stone-100 transition"
+    <button
+        @click="open = !open"
+        class="flex items-center gap-2 ml-2 p-2 rounded-full text-white hover:text-[#DC5850] transition"
         aria-label="Search"
     >
-        <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+        <span class="header-search-label hidden sm:inline" x-show="!open">Search</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
         </svg>
     </button>
@@ -206,7 +242,7 @@
 
     <button
       type="button"
-      class="absolute inset-0 z-20 inline-flex items-center justify-center p-2 text-black rounded-full"
+      class="absolute inset-0 z-20 inline-flex items-center justify-center p-2 text-white rounded-full"
       @click="open = !open"
       :aria-expanded="open.toString()" style="margin-top:18px;"
     >
@@ -228,5 +264,20 @@
       </div>
     </div>
   </header>
+  <script>
+    (function () {
+      var headerContainer = document.getElementById('header-container');
+      if (!headerContainer) return;
+      var solidify = function () {
+        if (window.scrollY > 40) {
+          headerContainer.classList.add('header-solid');
+        } else {
+          headerContainer.classList.remove('header-solid');
+        }
+      };
+      solidify();
+      window.addEventListener('scroll', solidify, { passive: true });
+    })();
+  </script>
   <div id="smooth-content" class="w-full overflow-visible">
     <main id="primary" class="site-main">

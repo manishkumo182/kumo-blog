@@ -22,12 +22,12 @@ $hack_query = new WP_Query($hack_args);
 ?>
 
 <?php if ($hack_query->have_posts()) : ?>
-<section class="py-20 bg-gray-100">
+<section class="py-20 bg-primary">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-20">
 
         <h2 class="text-4xl font-bold text-center mb-4 text-gray-800"></h2>
 
-        <h4 class="text-4xl text-center text-secondary mb-14">
+        <h4 class="text-4xl text-center text-white mb-14">
             Time Saving Tips and Tricks for Developers
         </h4>
 

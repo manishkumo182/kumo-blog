@@ -13,7 +13,7 @@ $args = [
 $products_query = new WP_Query($args);
 
 if ($products_query->have_posts()) : ?>
-<section class="py-20 bg-gray-50">
+<section class="py-20 bg-primary">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-20">
 
         <!-- Section Title -->

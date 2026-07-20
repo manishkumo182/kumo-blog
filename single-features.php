@@ -15,7 +15,7 @@ if (have_posts()) : while (have_posts()) : the_post();
     $post_terms = get_the_terms($features_id, 'feature_category');
 ?>
 <section class="py-16 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-6 lg:px-8" style="margin-top:4rem;">
+    <div class="max-w-4xl mx-auto p-6 lg:px-8" style="margin-top:4rem;">
         <!-- Category -->
         <?php if ($post_terms && !is_wp_error($post_terms)) : ?>
             <div class="mb-4 flex flex-wrap gap-2">

@@ -5,7 +5,7 @@ function kumo_enqueue_scripts() {
     // CSS
     wp_enqueue_style(
         'kumo-styles', 
-        $dist . '/src_css_index_css.1a7b3b8ec02731cc2dee.css', 
+        $dist . '/styles.f29b2ccc6acfa216594f.css',
         [], 
         '1.0'
     );
