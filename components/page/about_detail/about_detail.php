@@ -8,7 +8,7 @@ $about_detail = get_field('about_detail');
         <div class="container mx-auto py-28 lg:px-28">
 
             <?php if (!empty($about_detail['title'])): ?>
-                <h3 class="text-white text-center font-semibold lg:text-6xl xs:text-2xl py-10">
+                <h3 class="text-white text-center font-semibold lg:text-4xl xs:text-2xl py-10">
                     <?= esc_html($about_detail['title']) ?>
                 </h3>
             <?php endif; ?>
