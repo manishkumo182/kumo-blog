@@ -251,6 +251,153 @@ function kumo_customize_register( $wp_customize ) {
 	) ) );
 
 	/* -------------------------------------------------
+	 * About page
+	 * ------------------------------------------------- */
+	$wp_customize->add_section( 'kumo_about', array(
+		'title'    => __( 'About Page', 'kumo-blog' ),
+		'priority' => 29,
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_badge', array(
+		'default'           => 'About Us',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_badge', array(
+		'label'   => __( 'Badge label', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_heading', array(
+		'default'           => "We're building the future of tech journalism",
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_heading', array(
+		'label'   => __( 'Heading', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_subheading', array(
+		'default'           => 'Kumo Blog covers the research, engineering and products shaping what comes next — reported clearly, for a curious audience.',
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_subheading', array(
+		'label'   => __( 'Subheading', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'textarea',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_story_heading', array(
+		'default'           => 'Our story',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_story_heading', array(
+		'label'   => __( 'Story heading', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_story_text', array(
+		'default'           => "Kumo Blog started as a small newsletter and grew into a daily source for technology coverage. We believe good reporting should be accurate, readable and free of hype.\n\nToday our team works with researchers, engineers and founders to bring their work to a wider audience.",
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_story_text', array(
+		'label'       => __( 'Story text', 'kumo-blog' ),
+		'description' => __( 'Separate paragraphs with a blank line.', 'kumo-blog' ),
+		'section'     => 'kumo_about',
+		'type'        => 'textarea',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_story_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'kumo_about_story_image', array(
+		'label'   => __( 'Story image', 'kumo-blog' ),
+		'section' => 'kumo_about',
+	) ) );
+
+	for ( $i = 1; $i <= 3; $i++ ) {
+		$defaults = array(
+			1 => array( 'value' => '120+', 'label' => 'Articles published' ),
+			2 => array( 'value' => '45k', 'label' => 'Monthly readers' ),
+			3 => array( 'value' => '8', 'label' => 'Years running' ),
+		);
+
+		$wp_customize->add_setting( "kumo_about_stat{$i}_value", array(
+			'default'           => $defaults[ $i ]['value'],
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( "kumo_about_stat{$i}_value", array(
+			/* translators: %d: stat number */
+			'label'   => sprintf( __( 'Stat %d — value', 'kumo-blog' ), $i ),
+			'section' => 'kumo_about',
+			'type'    => 'text',
+		) );
+
+		$wp_customize->add_setting( "kumo_about_stat{$i}_label", array(
+			'default'           => $defaults[ $i ]['label'],
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( "kumo_about_stat{$i}_label", array(
+			/* translators: %d: stat number */
+			'label'   => sprintf( __( 'Stat %d — label', 'kumo-blog' ), $i ),
+			'section' => 'kumo_about',
+			'type'    => 'text',
+		) );
+	}
+
+	$wp_customize->add_setting( 'kumo_about_cta_heading', array(
+		'default'           => 'Want to work with us?',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_cta_heading', array(
+		'label'   => __( 'CTA heading', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_cta_text', array(
+		'default'           => "We're always open to pitches, partnerships and new contributors.",
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_cta_text', array(
+		'label'   => __( 'CTA text', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_cta_button_text', array(
+		'default'           => 'Get in touch',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'kumo_about_cta_button_text', array(
+		'label'   => __( 'CTA button text', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'kumo_about_cta_button_url', array(
+		'default'           => '/contact/',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( 'kumo_about_cta_button_url', array(
+		'label'   => __( 'CTA button link', 'kumo-blog' ),
+		'section' => 'kumo_about',
+		'type'    => 'url',
+	) );
+
+	$wp_customize->add_setting( 'kumo_color_about_accent', array(
+		'default'           => '#6C5CE7',
+		'sanitize_callback' => 'sanitize_hex_color',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'kumo_color_about_accent', array(
+		'label'   => __( 'Accent color (about page)', 'kumo-blog' ),
+		'section' => 'kumo_about',
+	) ) );
+
+	/* -------------------------------------------------
 	 * Colors
 	 * ------------------------------------------------- */
 	$wp_customize->add_setting( 'kumo_color_accent', array(
@@ -270,6 +417,7 @@ add_action( 'customize_register', 'kumo_customize_register' );
 function kumo_customizer_css() {
 	$accent         = get_theme_mod( 'kumo_color_accent', '#F9D9DE' );
 	$contact_accent = get_theme_mod( 'kumo_color_contact_accent', '#6C5CE7' );
-	echo '<style>:root{ --kumo-accent: ' . esc_attr( $accent ) . '; --kumo-contact-accent: ' . esc_attr( $contact_accent ) . '; }</style>';
+	$about_accent   = get_theme_mod( 'kumo_color_about_accent', '#6C5CE7' );
+	echo '<style>:root{ --kumo-accent: ' . esc_attr( $accent ) . '; --kumo-contact-accent: ' . esc_attr( $contact_accent ) . '; --kumo-about-accent: ' . esc_attr( $about_accent ) . '; }</style>';
 }
 add_action( 'wp_head', 'kumo_customizer_css' );
