@@ -371,7 +371,7 @@ button.post-card__readmore.js-unsave:hover{ color:var(--kumo-ink); }
 	display:inline-flex; align-items:center; gap:8px; border:1px solid var(--kumo-border);
 	border-radius:20px; padding:8px 16px; font-size:12px; font-weight:600; color:var(--kumo-ink);
 }
-.about-badge svg{ color:var(--kumo-about-accent); }
+.about-badge svg{ color:var(--kumo-ink);}
 
 .about-title{ font-size:34px; font-weight:700; line-height:1.2; margin-top:20px; }
 .about-subtitle{ font-size:15px; color:var(--kumo-ink-soft); margin-top:16px; line-height:1.7; }
