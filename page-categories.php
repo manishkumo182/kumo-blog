@@ -14,6 +14,13 @@ $categories = get_categories( array(
 	'exclude'    => array( get_option( 'default_category' ) ),
 ) );
 
+$categories_per_page = 4;
+$categories_total     = count( $categories );
+$categories_pages     = max( 1, (int) ceil( $categories_total / $categories_per_page ) );
+$categories_paged     = isset( $_GET['cpage'] ) ? absint( $_GET['cpage'] ) : 1;
+$categories_paged     = min( max( 1, $categories_paged ), $categories_pages );
+$categories_page_items = array_slice( $categories, ( $categories_paged - 1 ) * $categories_per_page, $categories_per_page );
+
 $popular = kumo_get_popular_posts( 5 );
 if ( empty( $popular ) ) {
 	$popular = get_posts( array( 'posts_per_page' => 5, 'ignore_sticky_posts' => true ) );
@@ -30,8 +37,8 @@ if ( empty( $popular ) ) {
 
 <div class="categories-layout">
 	<div class="categories-main">
-		<?php if ( ! empty( $categories ) ) : ?>
-			<?php foreach ( $categories as $cat ) : ?>
+		<?php if ( ! empty( $categories_page_items ) ) : ?>
+			<?php foreach ( $categories_page_items as $cat ) : ?>
 				<a href="<?php echo esc_url( get_category_link( $cat ) ); ?>" class="category-row">
 					<span class="category-row__body">
 						<span class="category-row__meta">
@@ -48,6 +55,17 @@ if ( empty( $popular ) ) {
 			<?php endforeach; ?>
 		<?php else : ?>
 			<p><?php esc_html_e( 'No categories yet.', 'kumo-blog' ); ?></p>
+		<?php endif; ?>
+
+		<?php if ( $categories_pages > 1 ) : ?>
+			<div class="pagination pagination--prevnext">
+				<?php if ( $categories_paged > 1 ) : ?>
+					<a href="<?php echo esc_url( add_query_arg( 'cpage', $categories_paged - 1 ) ); ?>">&laquo; <?php esc_html_e( 'Previous', 'kumo-blog' ); ?></a>
+				<?php endif; ?>
+				<?php if ( $categories_paged < $categories_pages ) : ?>
+					<a href="<?php echo esc_url( add_query_arg( 'cpage', $categories_paged + 1 ) ); ?>"><?php esc_html_e( 'Next', 'kumo-blog' ); ?> &raquo;</a>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 	</div>
 

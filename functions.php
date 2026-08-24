@@ -95,6 +95,16 @@ function kumo_scripts() {
 add_action( 'wp_enqueue_scripts', 'kumo_scripts' );
 
 /**
+ * Show 4 posts per page on category archives so Previous/Next pagination kicks in.
+ */
+function kumo_category_posts_per_page( $query ) {
+	if ( ! is_admin() && $query->is_main_query() && is_category() ) {
+		$query->set( 'posts_per_page', 4 );
+	}
+}
+add_action( 'pre_get_posts', 'kumo_category_posts_per_page' );
+
+/**
  * Includes.
  */
 require KUMO_DIR . '/inc/customizer.php';

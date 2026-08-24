@@ -207,7 +207,7 @@ button.post-card__readmore.js-unsave:hover{ color:var(--kumo-ink); }
 	display:flex; align-items:center; gap:6px; margin-bottom:10px;
 	font-size:11px; font-weight:700; letter-spacing:.4px; text-transform:uppercase;
 }
-.post-row__cat, .post-row__author{ color:var(--kumo-red); }
+.post-row__cat, .post-row__author{ color:black; }
 .post-row__sep{ color:var(--kumo-muted); font-weight:400; }
 .post-row__title{ font-size:22px; font-weight:600; line-height:1.35; }
 .post-row__title a{ color:inherit; }
