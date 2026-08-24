@@ -62,6 +62,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	</div>
 </footer>
 
+<?php
+$kumo_submit_post_page = kumo_get_submit_post_page();
+if ( $kumo_submit_post_page && ! is_page( $kumo_submit_post_page->ID ) ) :
+	?>
+	<a href="<?php echo esc_url( get_permalink( $kumo_submit_post_page ) ); ?>" class="fab-add-post" aria-label="<?php esc_attr_e( 'Write a post', 'kumo-blog' ); ?>">
+		<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+	</a>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

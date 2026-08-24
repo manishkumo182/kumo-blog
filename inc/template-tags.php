@@ -94,6 +94,24 @@ function kumo_share_links( $post_id = null ) {
 }
 
 /**
+ * The page using the "Submit a Post" template, wherever its slug ends up.
+ */
+function kumo_get_submit_post_page() {
+	static $page = null;
+	if ( null === $page ) {
+		$found = get_posts( array(
+			'post_type'      => 'page',
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => 'page-submit-post.php',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+		) );
+		$page = $found ? get_post( $found[0] ) : false;
+	}
+	return $page ?: null;
+}
+
+/**
  * Render a category thumbnail <img>, using kumo_get_category_image_url()
  * from inc/category-meta.php with a safe placeholder fallback.
  */

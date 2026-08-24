@@ -18,19 +18,15 @@ $term = get_queried_object();
 </header>
 
 <?php if ( have_posts() ) : ?>
-	<div class="post-grid">
+	<div class="post-list">
 		<?php while ( have_posts() ) : the_post(); ?>
-			<?php get_template_part( 'template-parts/content-card', null, array( 'show_excerpt' => false ) ); ?>
+			<?php get_template_part( 'template-parts/content-row' ); ?>
 		<?php endwhile; ?>
 	</div>
 
-	<div class="pagination">
-		<?php
-		echo paginate_links( array(
-			'prev_text' => __( '←', 'kumo-blog' ),
-			'next_text' => __( '→', 'kumo-blog' ),
-		) );
-		?>
+	<div class="pagination pagination--prevnext">
+		<?php previous_posts_link( '&laquo; ' . __( 'Previous', 'kumo-blog' ) ); ?>
+		<?php next_posts_link( __( 'Next', 'kumo-blog' ) . ' &raquo;' ); ?>
 	</div>
 <?php else : ?>
 	<p><?php esc_html_e( 'No posts found in this category yet.', 'kumo-blog' ); ?></p>

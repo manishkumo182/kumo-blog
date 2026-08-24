@@ -105,3 +105,5 @@ require KUMO_DIR . '/inc/subscribers.php';
 require KUMO_DIR . '/inc/likes.php';
 require KUMO_DIR . '/inc/shares.php';
 require KUMO_DIR . '/inc/contact.php';
+require KUMO_DIR . '/inc/submit-post.php';
+require KUMO_DIR . '/inc/security.php';

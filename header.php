@@ -37,7 +37,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</form>
 
 		<div class="site-header__actions">
-			<a href="<?php echo esc_url( wp_login_url() ); ?>" class="icon-btn" aria-label="<?php esc_attr_e( 'Account', 'kumo-blog' ); ?>">
+			<?php $submit_post_page = kumo_get_submit_post_page(); ?>
+			<a href="<?php echo esc_url( is_user_logged_in() && $submit_post_page ? get_permalink( $submit_post_page ) : wp_login_url() ); ?>" class="icon-btn" aria-label="<?php esc_attr_e( 'Account', 'kumo-blog' ); ?>">
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
 			</a>
 			<?php $saved_page = get_page_by_path( 'saved-posts' ); ?>
