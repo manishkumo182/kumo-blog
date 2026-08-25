@@ -327,8 +327,29 @@ button.post-card__readmore.js-unsave:hover{ color:var(--kumo-ink); }
 .entry-content h2{ font-size:22px; margin:32px 0 14px; }
 .entry-content h3{ font-size:18px; margin:26px 0 12px; }
 .entry-content p{ margin:0 0 18px; }
-.entry-content img{ border-radius:var(--kumo-radius-sm); margin:20px 0; }
+.entry-content img{ border-radius:var(--kumo-radius-sm); margin:20px 0; max-width:100%; height:auto; }
 .entry-content blockquote{ border-left:3px solid var(--kumo-ink); margin:20px 0; padding:4px 20px; font-style:italic; color:var(--kumo-ink-soft); }
+.entry-content::after{ content:""; display:table; clear:both; }
+
+/* Classic-editor image alignment/captions (.wp-caption is the wrapper WP outputs
+   when an inserted image has a caption; without these rules it falls back to
+   unstyled block flow at a fixed pixel width instead of matching the column). */
+.entry-content .alignleft{ float:left; margin:6px 24px 20px 0; }
+.entry-content .alignright{ float:right; margin:6px 0 20px 24px; }
+.entry-content .aligncenter{ display:block; float:none; margin-left:auto; margin-right:auto; }
+.entry-content .wp-caption{ max-width:100%; }
+.entry-content .wp-caption img{ display:block; width:100%; height:auto; margin:0; border-radius:var(--kumo-radius-sm); }
+.entry-content .wp-caption .wp-caption-text{ font-size:12px; line-height:1.5; color:var(--kumo-ink-soft); text-align:center; padding:8px 4px 0; margin:0; }
+
+/* Same alignment/caption handling for images inserted via the block editor. */
+.entry-content .wp-block-image{ max-width:100%; }
+.entry-content .wp-block-image img{ border-radius:var(--kumo-radius-sm); }
+.entry-content .wp-block-image figcaption{ font-size:12px; line-height:1.5; color:var(--kumo-ink-soft); text-align:center; margin-top:8px; }
+
+@media (max-width:680px){
+	.entry-content .alignleft,
+	.entry-content .alignright{ float:none; display:block; margin:20px auto; width:100% !important; }
+}
 
 .post-share-rail{ position:sticky; top:24px; display:flex; flex-direction:column; align-items:center; gap:10px; }
 
