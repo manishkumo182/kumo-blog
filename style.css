@@ -323,7 +323,7 @@ button.post-card__readmore.js-unsave:hover{ color:var(--kumo-ink); }
 .single-hero__title{ font-size:30px; font-weight:500; line-height:1.3; margin-top:14px;    max-width: 850px; }
 .single-body{ display:grid; grid-template-columns:1fr 60px; gap:40px; align-items:start; margin-top:32px; }
 
-.entry-content{ font-size:14px; line-height:1.85; color:var(--kumo-ink); }
+.entry-content{ font-size:14px; line-height:1.85; color:var(--kumo-ink); min-width:0; }
 .entry-content h2{ font-size:22px; margin:32px 0 14px; }
 .entry-content h3{ font-size:18px; margin:26px 0 12px; }
 .entry-content p{ margin:0 0 18px; }
