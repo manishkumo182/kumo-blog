@@ -121,3 +121,31 @@ function kumo_category_thumb( $term_id, $size = 'kumo-card' ) {
 		echo '<img src="' . esc_url( $url ) . '" alt="" loading="lazy" />';
 	}
 }
+
+/**
+ * "About the author" box — only renders once an author fills in their
+ * Biographical Info (Users → Profile), so it stays invisible rather
+ * than showing an empty box. The same bio text feeds the BlogPosting
+ * author.description in the JSON-LD output.
+ */
+function kumo_author_bio( $post_id = null ) {
+	$post_id   = $post_id ? $post_id : get_the_ID();
+	$author_id = get_post_field( 'post_author', $post_id );
+	$bio       = get_the_author_meta( 'description', $author_id );
+
+	if ( ! $bio ) {
+		return;
+	}
+	?>
+	<div class="author-bio" style="max-width:720px; margin:0 auto 40px; padding:24px; background:var(--kumo-surface); border:1px solid var(--kumo-border); border-radius:var(--kumo-radius); display:flex; gap:16px; align-items:flex-start;">
+		<?php echo get_avatar( $author_id, 64, '', '', array( 'style' => 'border-radius:50%; flex-shrink:0;' ) ); ?>
+		<div>
+			<p style="margin:0 0 4px; font-family:var(--font-display); font-weight:600; color:var(--kumo-ink);">
+				<?php esc_html_e( 'Written by', 'kumo-blog' ); ?>
+				<?php echo esc_html( get_the_author_meta( 'display_name', $author_id ) ); ?>
+			</p>
+			<p style="margin:0; color:var(--kumo-ink-soft);"><?php echo esc_html( $bio ); ?></p>
+		</div>
+	</div>
+	<?php
+}

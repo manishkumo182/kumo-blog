@@ -251,3 +251,156 @@ function kumo_geo_404_noindex( $robots ) {
 	return $robots;
 }
 add_filter( 'wp_robots', 'kumo_geo_404_noindex' );
+
+/**
+ * -----------------------------------------------------------
+ * GEO — meta description + structured data (JSON-LD)
+ * -----------------------------------------------------------
+ * AI answer engines lean on a clear description and machine-readable
+ * structured data to decide what a page is about and whether it's
+ * citable. This adds a context-aware <meta name="description"> plus
+ * WebSite/Organization schema sitewide and BlogPosting schema (with
+ * author + publisher) on individual posts.
+ */
+
+/**
+ * Context-aware meta description: excerpt/content on posts & pages,
+ * term description on archives, tagline everywhere else.
+ */
+function kumo_geo_meta_description() {
+	$description = '';
+
+	if ( is_singular() ) {
+		$queried = get_queried_object();
+		if ( $queried instanceof WP_Post ) {
+			$description = has_excerpt( $queried ) ? get_the_excerpt( $queried ) : $queried->post_content;
+		}
+	} elseif ( is_category() || is_tag() || is_tax() ) {
+		$description = term_description();
+		if ( ! $description ) {
+			$description = sprintf( __( 'Posts about %1$s on %2$s.', 'kumo-blog' ), single_term_title( '', false ), get_bloginfo( 'name' ) );
+		}
+	} elseif ( is_front_page() || is_home() ) {
+		$description = get_bloginfo( 'description' );
+	}
+
+	if ( ! $description ) {
+		$description = get_bloginfo( 'description' );
+	}
+	if ( ! $description ) {
+		$description = get_bloginfo( 'name' );
+	}
+
+	$description = html_entity_decode( wp_strip_all_tags( $description ), ENT_QUOTES );
+	$description = trim( preg_replace( '/\s+/', ' ', $description ) );
+	$description = wp_trim_words( $description, 30, '…' );
+
+	if ( ! $description ) {
+		return;
+	}
+
+	echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
+}
+add_action( 'wp_head', 'kumo_geo_meta_description', 1 );
+
+/**
+ * Structured data (JSON-LD): WebSite + Organization sitewide, and
+ * BlogPosting — with author and publisher — on individual posts.
+ */
+function kumo_geo_structured_data() {
+	$site_name = get_bloginfo( 'name' );
+	$site_url  = home_url( '/' );
+
+	$logo = '';
+	if ( has_custom_logo() ) {
+		$logo_id  = get_theme_mod( 'custom_logo' );
+		$logo_src = $logo_id ? wp_get_attachment_image_src( $logo_id, 'full' ) : false;
+		$logo     = $logo_src ? $logo_src[0] : '';
+	}
+	if ( ! $logo ) {
+		$logo = get_site_icon_url();
+	}
+
+	$organization = array(
+		'@type' => 'Organization',
+		'@id'   => $site_url . '#organization',
+		'name'  => $site_name,
+		'url'   => $site_url,
+	);
+	if ( $logo ) {
+		$organization['logo'] = array(
+			'@type' => 'ImageObject',
+			'url'   => $logo,
+		);
+	}
+
+	$graph = array(
+		array(
+			'@type'           => 'WebSite',
+			'@id'             => $site_url . '#website',
+			'name'            => $site_name,
+			'url'             => $site_url,
+			'potentialAction' => array(
+				'@type'       => 'SearchAction',
+				'target'      => array(
+					'@type'       => 'EntryPoint',
+					'urlTemplate' => home_url( '/?s={search_term_string}' ),
+				),
+				'query-input' => 'required name=search_term_string',
+			),
+		),
+		$organization,
+	);
+
+	if ( is_singular( 'post' ) ) {
+		$queried = get_queried_object();
+		if ( $queried instanceof WP_Post ) {
+			$author_id   = $queried->post_author;
+			$author_name = get_the_author_meta( 'display_name', $author_id );
+			$author_bio  = get_the_author_meta( 'description', $author_id );
+			$description = has_excerpt( $queried ) ? get_the_excerpt( $queried ) : $queried->post_content;
+			$description = wp_trim_words( html_entity_decode( wp_strip_all_tags( $description ), ENT_QUOTES ), 30, '…' );
+			$image       = has_post_thumbnail( $queried ) ? get_the_post_thumbnail_url( $queried, 'kumo-hero' ) : '';
+
+			$author = array(
+				'@type' => 'Person',
+				'name'  => $author_name,
+				'url'   => get_author_posts_url( $author_id ),
+			);
+			if ( $author_bio ) {
+				$author['description'] = html_entity_decode( wp_strip_all_tags( $author_bio ), ENT_QUOTES );
+			}
+
+			$posting = array(
+				'@type'            => 'BlogPosting',
+				'@id'              => get_permalink( $queried ) . '#article',
+				'headline'         => html_entity_decode( get_the_title( $queried ), ENT_QUOTES ),
+				'description'      => $description,
+				'datePublished'    => get_the_date( 'c', $queried ),
+				'dateModified'     => get_the_modified_date( 'c', $queried ),
+				'url'              => get_permalink( $queried ),
+				'mainEntityOfPage' => array(
+					'@type' => 'WebPage',
+					'@id'   => get_permalink( $queried ),
+				),
+				'author'           => $author,
+				'publisher'        => array( '@id' => $site_url . '#organization' ),
+				'isPartOf'         => array( '@id' => $site_url . '#website' ),
+			);
+			if ( $image ) {
+				$posting['image'] = $image;
+			}
+
+			$graph[] = $posting;
+		}
+	}
+
+	echo '<script type="application/ld+json">' . wp_json_encode(
+		array(
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		),
+		JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+	) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'kumo_geo_structured_data', 2 );

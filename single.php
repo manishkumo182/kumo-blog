@@ -88,6 +88,8 @@ while ( have_posts() ) : the_post();
 		</aside>
 	</div>
 
+
+<?php kumo_author_bio(); ?>
 	<?php
 	$related = get_posts( array(
 		'posts_per_page' => 4,
